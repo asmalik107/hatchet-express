@@ -81,7 +81,7 @@ if (TARGET === 'dev-server' || !TARGET) {
 if (TARGET === 'build' || TARGET === 'stats') {
     module.exports = merge(common, {
         entry: {
-            vendor: Object.keys(pkg.dependencies)
+            //vendor: Object.keys(pkg.dependencies)
         },
         module: {
             loaders: [
