@@ -22,21 +22,8 @@ var PATHS = {
 
 
 var common = {
-    entry: {
-        app: PATHS.app + '/main.js',
-        style: PATHS.style
-    },
-    /*    entry: [
-     PATHS.app + '/main.js',
-     PATHS.style
-     ],*/
     resolve: {
         extensions: ['', '.js', '.jsx']
-    },
-    output: {
-        path: PATHS.build,
-        filename: '[name].[chunkhash].js',
-        chunkFilename: '[chunkhash].js'
     },
     module: {
         loaders: [
@@ -69,8 +56,18 @@ var common = {
 };
 
 
-if (TARGET === 'dev-server' || TARGET === 'dev_start'|| !TARGET) {
+if (TARGET === 'dev-server' || TARGET === 'dev_start' || !TARGET) {
     module.exports = merge(common, {
+        entry: {
+            app: [ PATHS.app + '/main.js', 'webpack-hot-middleware/client'],
+            style: [PATHS.style, 'webpack-hot-middleware/client']
+        },
+        output: {
+            path: PATHS.build,
+            filename: '[name].[hash].js',
+            chunkFilename: '[hash].js',
+            publicPath: '/'
+        },
         devtool: 'eval-source-map',
         module: {
             loaders: [
@@ -82,7 +79,12 @@ if (TARGET === 'dev-server' || TARGET === 'dev_start'|| !TARGET) {
                     include: PATHS.app
                 }
             ]
-        }
+        },
+        plugins: [
+            new webpack.optimize.OccurenceOrderPlugin(),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoErrorsPlugin()
+        ]
 
     });
 }
@@ -92,6 +94,15 @@ if (TARGET === 'build' || TARGET === 'stats') {
         /*        entry: {
          //vendor: Object.keys(pkg.dependencies)
          },*/
+        entry: {
+            app:  PATHS.app + '/main.js',
+            style: PATHS.style
+        },
+        output: {
+            path: PATHS.build,
+            filename: '[name].[chunkhash].js',
+            chunkFilename: '[chunkhash].js'
+        },
         module: {
             loaders: [
                 // Extract CSS during build

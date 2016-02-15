@@ -12,17 +12,20 @@ console.log(isDev);
 if (isDev) {
     var webpack = require('webpack');
     var webpackMiddleware = require('webpack-dev-middleware');
-    var webpackConfig = require('../webpack.config.js');
+    var config = require('../webpack.config.js');
+    var webpackHotMiddleware = require('webpack-dev-middleware');
 
-    var compiler = webpack(webpackConfig);
+    var compiler = webpack(config);
 
     app.use(express.static(__dirname + '../dist'));
     app.use(webpackMiddleware(compiler, {
+        publicPath: config.output.publicPath,
         stats: {
             colors: true,
             progress:true
         }
     }));
+    app.use(webpackHotMiddleware(compiler));
 
 } else {
     var publicPath = path.resolve(__dirname, '../dist');
