@@ -9,6 +9,11 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var pkg = require('./package.json');
 
 var TARGET = process.env.npm_lifecycle_event;
+if (TARGET === 'start' && process.env.NODE_ENV !== 'production') {
+    TARGET = 'dev_' + TARGET;
+}
+
+
 var PATHS = {
     app: path.join(__dirname, 'app'),
     build: path.join(__dirname, 'dist'),
@@ -21,6 +26,10 @@ var common = {
         app: PATHS.app + '/main.js',
         style: PATHS.style
     },
+    /*    entry: [
+     PATHS.app + '/main.js',
+     PATHS.style
+     ],*/
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
@@ -60,7 +69,7 @@ var common = {
 };
 
 
-if (TARGET === 'dev-server' || !TARGET) {
+if (TARGET === 'dev-server' || TARGET === 'dev_start'|| !TARGET) {
     module.exports = merge(common, {
         devtool: 'eval-source-map',
         module: {
@@ -80,9 +89,9 @@ if (TARGET === 'dev-server' || !TARGET) {
 
 if (TARGET === 'build' || TARGET === 'stats') {
     module.exports = merge(common, {
-        entry: {
-            //vendor: Object.keys(pkg.dependencies)
-        },
+        /*        entry: {
+         //vendor: Object.keys(pkg.dependencies)
+         },*/
         module: {
             loaders: [
                 // Extract CSS during build
