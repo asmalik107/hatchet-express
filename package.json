@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev-server": "webpack-dev-server --content-base dist/ --progress --colors:",
+    "dev-server": "webpack-dev-server --display-error-details --content-base dist/ --progress --colors:",
     "lint": "eslint . --ext .js --ext .jsx",
     "start": "node server/server.js",
     "stats": "webpack --profile --json > stats.json",
