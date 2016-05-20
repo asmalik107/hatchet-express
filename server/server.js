@@ -44,4 +44,3 @@ app.use('/api/v1', router);
 app.listen(port, function () {
     console.log('Server running on port: ' + 3000);
 });
-
