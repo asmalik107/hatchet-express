@@ -59,7 +59,7 @@ var common = {
 if (TARGET === 'dev-server' || TARGET === 'dev_start' || !TARGET) {
     module.exports = merge(common, {
         entry: {
-            app: [ PATHS.app + '/main.js', 'webpack-hot-middleware/client'],
+            app: [ PATHS.app + '/index.js', 'webpack-hot-middleware/client'],
             style: [PATHS.style, 'webpack-hot-middleware/client']
         },
         output: {
@@ -95,7 +95,7 @@ if (TARGET === 'build' || TARGET === 'stats') {
          //vendor: Object.keys(pkg.dependencies)
          },*/
         entry: {
-            app:  PATHS.app + '/main.js',
+            app:  PATHS.app + '/index.js',
             style: PATHS.style
         },
         output: {
